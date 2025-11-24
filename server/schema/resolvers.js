@@ -4,7 +4,9 @@ const _ = require('lodash');
 const resolvers = {
   Query: {
     users: () => {
-      return UserList;
+      if (UserList) return { users: UserList };
+
+      return { message: 'Y000, there was an error dawg' };
     },
     user: (parent, args) => {
       const id = args.id; // The args parameter is always 2nd. Parent would be first.
@@ -62,6 +64,17 @@ const resolvers = {
       const id = args.id;
       _.remove(UserList, (user) => user.id === Number(id));
       return console.log('Deleted user: ', args.id);
+    },
+  },
+  // Resolver for both Users ERROR and SUCCESS
+  UsersResult: {
+    __resolveType(obj) {
+      if (obj.users) {
+        return 'UsersSuccessfulResult';
+      }
+      if (obj.message) {
+        return 'UsersErrorResult';
+      }
     },
   },
 };
