@@ -51,6 +51,7 @@ const typeDefs = gql`
     INDIA
     GERMANY
     CHILE
+    SRILANKA
   }
 `;
 
